@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+		#single {
+			position:absolute;
+			background-image: url("assets/lv1.png");
+			background-repeat:no-repeat;
+			background-size:auto 100%;
+			width: 100%;
+			height:56.2vw;
+		}
+		#single #level-selection{
+			position:absolute;
+			top:18vw;
+			left:21vw;
+			cursor:pointer;
+		}
+		#single #level-selection img{
+			width: 26vw;
+			height: 26vw;
+			margin-left:2vw;
+			-webkit-filter:drop-shadow(1px 1px 10px #666);
+			filter:drop-shadow(1px 1px 10px #666);
+			-webkit-border-radius: 2vw;
+			-moz-border-radius: 2vw;
+			border-radius: 2vw;
+		}
+		#single #level-selection img:hover{
+			-webkit-filter:drop-shadow(1px 1px 10px #FFF);
+			filter:drop-shadow(1px 1px 10px #FFF);
+		}
+		#single #level-selection img:active{
+			-webkit-filter:drop-shadow(1px 1px 10px #666);
+			filter:drop-shadow(1px 1px 10px #666);
+		}
+		#single button {
+			position:absolute;
+			right:2vw;
+			bottom:3vw;
+			cursor:pointer;
+			outline-style:none;
+			font: 3vw cute;
+			background-color:rgb(50,199,234);
+			border:0.8vw solid rgb(50,199,234);
+			color:white;
+			width:20vw;
+			height: 6vw;
+			-webkit-transition: width .5s;
+			transition: width .5s,;
+			-webkit-animation: right-animate 2s;
+			-moz-animation: right-animate 2s;
+			animation: right-animate 2s;
+			-webkit-filter:drop-shadow(2px 2px 4px #444);
+			filter:drop-shadow(2px 2px 2px #444);
+			-webkit-border-radius: 2vw;
+			-moz-border-radius: 2vw;
+			border-radius: 2vw;
+		}
+		#single button:hover {
+			border:0.8vw solid rgb(50,199,234);
+			background-color:white;
+			color: rgb(50,199,234);
+			width:26vw;
+		}
+		#single button:active {
+			border:0.8vw solid rgb(70,222,234);
+			background-color: white;
+			color: rgb(50,199,234);
+			width:26vw;
+		}
+		#single .disable, #single .disable:hover{
+			-webkit-filter:none !important;
+			filter:none !important;
+			opacity:0.8 !important;
+		}
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				socket.emit('getUser');
+				socket.on('getbackUser', function( user ) {
+
+					if(user['level']==1)
+					$("#lv2").attr("src","level2_un.png");
+				});
+				$("#back").on('click',function(){
+					$.ajax({url: "menu.html", success: function(result){
+						$("body").html(result);
+					}});
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="single">
+			<div id="level-selection">
+				<a href="./view1?player=player01" style="text-decoraction:none;outline-style:none;"><img id="lv1" src="assets/level1_mu.png"></a>
+				<!--<img id="lv2" class="disable" src="assets/level2.png">-->
+			</div>
+			<button id="back">Back</button>
+		</div>
+	</body>
+</html>

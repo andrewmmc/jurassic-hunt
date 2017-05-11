@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    @font-face {
+        font-family: 'cute';
+        src: url('assets/showg.ttf');
+    }
+    
+    #mode {
+        position: absolute;
+        background-image: url("assets/mode.png");
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        width: 100%;
+        height: 56.2vw;
+    }
+    
+    #mode #menu {
+        position: relative;
+        width: 36%;
+        margin-top: 25vw;
+        margin-bottom: 7vw;
+        -webkit-animation: bottom-animate 2s;
+        -moz-animation: bottom-animate 2s;
+        animation: bottom-animate 2s;
+    }
+    
+    #mode #menu button {
+        cursor: pointer;
+        outline-style: none;
+        font: 3.6vw cute;
+        background-color: transparent;
+        border: 0.8vw solid transparent;
+        color: white;
+        width: 85%;
+        height: 7vw;
+        -webkit-transition: width .5s;
+        transition: width .5s, ;
+        -webkit-border-radius: 2vw;
+        -moz-border-radius: 2vw;
+        border-radius: 2vw;
+    }
+    
+    #mode #menu button:hover {
+        background-color: white;
+        color: rgb(255, 205, 37);
+        width: 100%;
+    }
+    
+    #mode #menu button:active {
+        background-color: white;
+        color: orange;
+        width: 100%;
+    }
+    
+    #mode button#back {
+        position: absolute;
+        right: 2vw;
+        bottom: 3vw;
+        cursor: pointer;
+        outline-style: none;
+        font: 3vw cute;
+        background-color: rgb(50, 199, 234);
+        border: 0.8vw solid rgb(50, 199, 234);
+        color: white;
+        width: 20vw;
+        height: 6vw;
+        -webkit-transition: width .5s;
+        transition: width .5s, ;
+        -webkit-animation: right-animate 2s;
+        -moz-animation: right-animate 2s;
+        animation: right-animate 2s;
+        -webkit-filter: drop-shadow(2px 2px 4px #444);
+        filter: drop-shadow(2px 2px 2px #444);
+        -webkit-border-radius: 2vw;
+        -moz-border-radius: 2vw;
+        border-radius: 2vw;
+    }
+    
+    #mode button#back:hover {
+        border: 0.8vw solid rgb(50, 199, 234);
+        background-color: white;
+        color: rgb(50, 199, 234);
+        width: 26vw;
+    }
+    
+    #mode button#back:active {
+        border: 0.8vw solid rgb(70, 222, 234);
+        background-color: white;
+        color: rgb(50, 199, 234);
+        width: 26vw;
+    }
+    </style>
+    <script>
+    $(document).ready(function() {
+        socket.emit('getUser');
+        socket.on('getbackUser', function(user) {
+            $('#pname').text("Name: " + user['name']);
+            $("#pscore").text("Score: " + user['score']);
+        });
+
+        $("#back").on('click', function() {
+            $.ajax({
+                url: "menu.html",
+                success: function(result) {
+                    $("body").html(result);
+                }
+            });
+        });
+        $("#single").on('click', function() {
+            $.ajax({
+                url: "./game/view1?player=player01",
+                success: function(result) {
+                    $("body").html(result);
+                }
+            });
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div id="mode">
+        <center>
+            <div id="menu">
+                <!--<button id="single" onClick="window.location.assign('./game/#/view1?player=player01');">Single Player</button>-->
+                <!--<button id="multi">Multi Player</button><br>-->
+                <button onClick="window.location.assign('./game/#/view1?player=player01');">Single Player</button>
+                <button onClick="window.location.assign('./game/#/view1?player=player01&multiplayer=true');">Multi Player 1</button>
+                <button onClick="window.location.assign('./game/#/view1?player=player02&multiplayer=true');">Multi Player 2</button>
+                <!--<button id="logout" style="font-size:3vw;height:5vw;width:20vw;" onClick="sessionStorage.clear();window.location.assign('menu.html');">Logout</button>-->
+            </div>
+            <button id="back" style="font-size:3vw;height:5vw;width:20vw;" onclick="window.location.assign('menu.html');">Back</button>
+        </center>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    @font-face {
+        font-family: 'cute';
+        src: url('assets/showg.ttf');
+    }
+    
+    #container {
+        position: absolute;
+        background-image: url("assets/menu.jpg");
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        width: 100%;
+        height: 56.2vw;
+    }
+    
+    #menu {
+        position: relative;
+        width: 36%;
+        margin-top: 23vw;
+        margin-bottom: 5.2vw;
+        -webkit-animation: top-animate 2s;
+        -moz-animation: top-animate 2s;
+        animation: top-animate 2s;
+    }
+    
+    #menu button {
+        cursor: pointer;
+        outline-style: none;
+        font: 3.6vw cute;
+        background-color: transparent;
+        border: 0.8vw solid transparent;
+        color: white;
+        width: 85%;
+        height: 7vw;
+        -webkit-transition: width .5s;
+        transition: width .5s, ;
+        -webkit-border-radius: 2vw;
+        -moz-border-radius: 2vw;
+        border-radius: 2vw;
+    }
+    
+    #menu button:hover {
+        background-color: white;
+        color: rgb(255, 205, 37);
+        width: 100%;
+    }
+    
+    #menu button:active {
+        background-color: white;
+        color: orange;
+        width: 100%;
+    }
+    
+    @-webkit-keyframes top-animate {
+        0% {
+            top: -50vw;
+        }
+        100% {
+            top: -0.4vw;
+        }
+    }
+    
+    @-moz-keyframes top-animate {
+        0% {
+            top: -50vw;
+        }
+        100% {
+            top: -0.4vw;
+        }
+    }
+    
+    @keyframes top-animate {
+        0% {
+            top: -50vw;
+        }
+        100% {
+            top: -0.4vw;
+        }
+    }
+    
+    @-webkit-keyframes right-animate {
+        0% {
+            right: -40vw;
+        }
+        100% {
+            right: 3vw;
+        }
+    }
+    
+    @-moz-keyframes right-animate {
+        0% {
+            right: -40vw;
+        }
+        100% {
+            right: 3vw;
+        }
+    }
+    
+    @keyframes right-animate {
+        0% {
+            right: -40vw;
+        }
+        100% {
+            right: 3vw;
+        }
+    }
+    
+    @-webkit-keyframes bottom-animate {
+        0% {
+            bottom: -50vw;
+        }
+        100% {
+            bottom: -0.4vw;
+        }
+    }
+    
+    @-moz-keyframes bottom-animate {
+        0% {
+            bottom: -50vw;
+        }
+        100% {
+            bottom: -0.4vw;
+        }
+    }
+    
+    @keyframes bottom-animate {
+        0% {
+            bottom: -50vw;
+        }
+        100% {
+            bottom: -0.4vw;
+        }
+    }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.createjs.com/soundjs-0.5.2.min.js" /></script>
+    <script>
+    $(document).ready(function() {
+        $("#start").on('click', function() {
+            $.ajax({
+                url: "mode.html",
+                success: function(result) {
+                    $("body").html(result);
+                }
+            });
+        });
+        $("#instruction").on('click', function() {
+            $.ajax({
+                url: "instruction.html",
+                success: function(result) {
+                    $("body").html(result);
+                }
+            });
+        });
+        $("#score").on('click', function() {
+            $.ajax({
+                url: "score.html",
+                success: function(result) {
+                    $("body").html(result);
+                }
+            });
+        });
+        $("#quit").on('click', function() {
+            playClick();
+            if (confirm("Are you sure want to quit?")) {
+                sessionStorage.clear();
+                self.close();
+            }
+        });
+    });
+
+    function playClick() {
+        var clickSD = document.getElementById("clicked");
+        clickSD.play();
+    }
+    </script>
+</head>
+
+<body>
+    <audio controls autoplay hidden loop>
+        <source src="assets/home-bg.mp3" type="audio/mpeg">
+            Not Supported HTML5 audio
+    </audio>
+    <audio controls hidden id="clicked" src="assets/button-clicked.wav"></audio>
+    <div id="container">
+        <center>
+            <div id="menu">
+                <button id="start">Start</button>
+                <button id="instruction">Instruction</button>
+                <button id="quit" style="height:5.9vw">Exit</button>
+            </div>
+        </center>
+    </div>
+    <img class="preload" src="assets/instr.JPG">
+    <img class="preload" src="assets/menu.jpg">
+    <img class="preload" src="assets/background.png">
+    <img class="preload" src="assets/lv.png">
+    <img class="preload" src="assets/lv1.png">
+    <img class="preload" src="assets/scores.png">
+    <img class="preload" src="assets/mode.png">
+</body>
+<style>
+img.preload {
+    visibility: hidden;
+}
+</style>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+		<script>
+		if (sessionStorage.login) {
+				$.ajax({url: "mode.html", success: function(result){
+			$("body").html(result);
+				}});
+		}
+		</script>
+		<head>
+		<style>
+		#startgame {
+			position:absolute;
+			background-image: url("assets/background.png");
+			background-repeat:no-repeat;
+			background-size:auto 100%;
+			width: 100%;
+			height:56.2vw;
+		}
+		#startgame #backbox{
+			position:absolute;
+			top:16vw;
+			left:30vw;
+			width:40vw;
+			height:30vw;
+			background-color: white;
+			opacity:0.6;
+			-webkit-border-radius: 2vw;
+			-moz-border-radius: 2vw;
+			border-radius: 2vw;
+		}
+		#startgame #box{
+			position:absolute;
+			top:6vw;
+			height:38vw;
+		}
+		#startgame #box>div{
+			text-align:center;
+			width:100vw;
+			font: 8vw cute;
+			color:white;
+		}
+		#startgame button {
+			position:absolute;
+			right:2vw;
+			bottom:3vw;
+			cursor:pointer;
+			outline-style:none;
+			font: 3vw cute;
+			background-color:rgb(50,199,234);
+			border:0.8vw solid rgb(50,199,234);
+			color:white;
+			width:20vw;
+			height: 6vw;
+			-webkit-transition: width .5s;
+			transition: width .5s,;
+			-webkit-animation: right-animate 2s;
+			-moz-animation: right-animate 2s;
+			animation: right-animate 2s;
+			-webkit-filter:drop-shadow(2px 2px 4px #444);
+			filter:drop-shadow(2px 2px 2px #444);
+			-webkit-border-radius: 2vw;
+			-moz-border-radius: 2vw;
+			border-radius: 2vw;
+		}
+		#startgame button:hover {
+			border:0.8vw solid rgb(50,199,234);
+			background-color:white;
+			color: rgb(50,199,234);
+			width:26vw;
+		}
+		#startgame button:active {
+			border:0.8vw solid rgb(70,222,234);
+			background-color: white;
+			color: rgb(50,199,234);
+			width:26vw;
+		}
+		#startgame #nm {
+			border:0;
+			left:39vw;
+			width:22vw;
+			-webkit-filter: none;
+			filter: none;
+		}
+		#startgame #nm:active {
+			color:grey;
+		}
+		#startgame input[type="text"] {
+		border:none;
+		width: 26vw;
+			height:4vw;
+			font-size: 3.5vw;
+			-webkit-border-radius: 1vw;
+			-moz-border-radius: 1vw;
+			border-radius: 1vw;
+			outline-style:none;
+		}
+		#startgame form{
+		margin-top:3vw;
+		line-height:4vw;
+		}
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+		<script src="/socket.io/socket.io.js"></script>
+
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script>
+			var socket = io();
+			var id;
+			socket.on('onconnected', function( data ) {
+		  		console.log( 'Connected successfully to the socket.io server. My server side ID is ' + data.id );
+				id=data.id;
+			});
+			$('form').submit(function(){
+				socket.emit('login', { name: $('#username').val(), sendid: id});
+				return false;
+			});
+			socket.on('loginStatus', function( data ) {
+				$.ajax({url: "mode.html", success: function(result){
+					$("body").html(result);
+					sessionStorage.login=true;
+				}});
+			});
+		$("#back").on('click',function(){
+			$.ajax({url: "menu.html", success: function(result){
+				$("body").html(result);
+			}});
+		});
+		</script>
+
+	</head>
+
+	<body>
+		<div id="startgame">
+			<div id="backbox"></div>
+			<div id="box">
+			<div><span>Login</span><br>
+			<!--<form action="">-->
+				<span style="font-size:3vw;color:black;">WELCOME!</span><br>
+				<!--<input id="username" type="text" required="required"/>-->
+				<!--<button id="nm" onclick="window.location.href='mode.html'">Login</button>-->
+				<button id="nm" onClick="window.location.assign('mode.html');">Continue</button>
+			<!--</form>-->
+			</div>
+		</div>
+			<button id="back" onClick="window.location.assign('menu.html');">Back</button>
+		</div>
+	</body>
+</html>

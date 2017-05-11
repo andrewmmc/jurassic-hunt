@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+		<head>
+		<style>
+		@font-face {
+    			font-family: 'cute';
+    			src: url('assets/showg.ttf');
+    	}
+		body{
+				margin:0;
+				overflow:hidden;
+		}
+		#home {
+				position:absolute;
+				top:10%;
+				left:0;
+				width:100%;
+				height:100%;
+				text-align:center;
+		}
+		#open {
+			cursor:pointer;
+			outline-style:none;
+			font: 10vw cute;
+			background-color:rgb(50,199,234);
+			border:0.8vw solid rgb(50,199,234);
+			color:white;
+			width:60vw;
+			height: 20vw;
+			-webkit-transition: width .5s;
+			transition: width .5s,;
+			-webkit-filter:drop-shadow(2px 2px 4px #444);
+			filter:drop-shadow(2px 2px 2px #444);
+			-webkit-border-radius: 2vw;
+			-moz-border-radius: 2vw;
+			border-radius: 2vw;
+		}
+		#open:hover {
+			border:0.8vw solid rgb(50,199,234);
+			background-color:white;
+			color: rgb(50,199,234);
+		}
+		#open:active {
+			border:0.8vw solid rgb(70,222,234);
+			background-color: white;
+			color: rgb(50,199,234);
+		}
+		</style>
+		<script language="javascript">
+		function ShowPopUp(popUpPage)
+		{
+		window.open(popUpPage, 'window','toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=1600,height=899');
+		}
+		</script>
+	</head>
+
+	<body>
+		<div id="home">
+			<button id="open" onClick="ShowPopUp('menu.html')">Play Now</button>
+		</div>
+	</body>
+</html>

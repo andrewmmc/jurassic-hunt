@@ -1,0 +1,227 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('myapp:server');
+var http = require('http');
+var url = require('url');
+var fs = require('fs');
+var io = require('socket.io').listen(server); // 加入 Socket.IO
+var compression = require('compression');
+
+app.use(compression()); //use compression 
+
+// Initialize the player object
+function Player (_id, _score, _lifesCount, _coinCount, _gameOver) {
+  this.id = _id;
+  this.score = _score;
+  this.lifesCount = _lifesCount;
+  this.coinCount = _coinCount;
+  this.gameOver = _gameOver;
+  return;
+}
+
+function PlayerPos (_id, _x, _y, _vx, _vy) {
+  this.id = _id;
+  this.x = _x;
+  this.y = _y;
+  this.vx = _vx;
+  this.vy = _vy;
+  return;
+}
+
+function PlayerWaiting (_id, _waiting) {
+  this.id = _id;
+  this.waiting = _waiting;
+  return;
+}
+
+var players = {};
+players[0] = new Player(0,0,5,0,false);
+players[1] = new Player(1,0,5,0,false);
+
+var playerpos = {};
+playerpos[0] = new PlayerPos(0,0,0,10,10);
+playerpos[1] = new PlayerPos(1,0,0,10,10);
+
+var playerwaiting = {};
+playerwaiting[0] = new PlayerWaiting(0,false);
+playerwaiting[1] = new PlayerWaiting(1,false);
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+server.listen(port);
+console.log('server started');
+
+socket = io.listen(8001);
+console.log('socket io server started');
+socket.set("transports", ["websocket"]);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+//server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Listen on IO port.
+ */
+io.on('connection', function(socket){
+  console.log('a user connected');
+
+  setInterval(function(){
+   var randomNumber = Math.random();
+  io.sockets.emit('update player random', randomNumber);
+  console.log(randomNumber);}, 5000); // Gen a common random number for platform and other game assets use
+
+  socket.on('new player', function (data) {
+    players[data.id].id = data.id;
+    players[data.id].score = data.score;
+    players[data.id].lifesCount = data.lifesCount;
+    players[data.id].coinCount = data.coinCount;
+    players[data.id].gameOver = data.gameOver;
+    });
+
+  socket.on('update player score', function (data) {
+    players[data.id].id = data.id;
+    players[data.id].score = data.score;
+    io.sockets.emit('update player score', data);
+    });
+
+    socket.on('update player lifesCount', function (data) {
+    players[data.id].id = data.id;
+    players[data.id].lifesCount = data.lifesCount;
+    io.sockets.emit('update player lifesCount', data);
+    });
+
+      socket.on('update player coinCount', function (data) {
+    players[data.id].id = data.id;
+    players[data.id].coinCount = data.coinCount;
+    io.sockets.emit('update player coinCount', data);
+    });
+
+        socket.on('update player gameOver', function (data) {
+    players[data.id].id = data.id;
+    players[data.id].gameOver = data.gameOver;
+    io.sockets.emit('update player gameOver', data);
+    });
+
+        socket.on('new player1 pos', function (data) {
+    playerpos[data.id].id = data.id;
+    playerpos[data.id].x = data.x;
+    playerpos[data.id].y = data.y;
+    playerpos[data.id].vx = data.vx;
+    playerpos[data.id].vy = data.vy;
+    });
+
+        socket.on('new player2 pos', function (data) {
+    playerpos[data.id].id = data.id;
+    playerpos[data.id].x = data.x;
+    playerpos[data.id].y = data.y;
+    playerpos[data.id].vx = data.vx;
+    playerpos[data.id].vy = data.vy;
+    });
+
+        socket.on('update player1 pos', function (data) {
+    playerpos[data.id].id = data.id;
+    playerpos[data.id].x = data.x;
+    playerpos[data.id].y = data.y;
+    playerpos[data.id].vx = data.vx;
+    playerpos[data.id].vy = data.vy;
+    //console.log(playerpos[data.id].id,playerpos[data.id].x, playerpos[data.id].y, playerpos[data.id].vx, playerpos[data.id].vy);
+    io.sockets.emit('update player1 pos', data);
+    });
+
+        socket.on('update player2 pos', function (data) {
+    playerpos[data.id].id = data.id;
+    playerpos[data.id].x = data.x;
+    playerpos[data.id].y = data.y;
+    playerpos[data.id].vx = data.vx;
+    playerpos[data.id].vy = data.vy;
+    //console.log(playerpos[data.id].id,playerpos[data.id].x, playerpos[data.id].y, playerpos[data.id].vx, playerpos[data.id].vy);
+    io.sockets.emit('update player2 pos', data);
+    });
+
+        socket.on('update player waiting', function (data) {
+    playerwaiting[data.id].id = data.id;
+    playerwaiting[data.id].waiting = data.waiting;
+    io.sockets.emit('update player waiting', data);
+    });
+  
+  });
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

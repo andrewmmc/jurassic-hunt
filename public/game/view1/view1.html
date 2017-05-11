@@ -1,0 +1,544 @@
+<sprite-sheet-runner width="windowWidth" height="gameHeight" score="score" coin-count="coinCount" lifes-count="lifesCount" url-object="urlObject" game-over="gameOver" random-number="randomNumber" waiting="waiting" multiplayer="multiplayer" taking-effect="takingEffect">
+</sprite-sheet-runner>
+<style ng-if="!multiplayer">
+@font-face {
+    font-family: 'cute';
+    src: url('assets/showg.ttf');
+}
+
+.ui {
+    cursor: default;
+}
+
+.select {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.coinsInfo {
+    font: 4vw cute;
+    color: white;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 1.5vw;
+    left: 48%;
+    line-height: 3.5vw;
+}
+
+.coinsInfo img {
+    width: 5vw;
+    height: 5vw;
+}
+
+.scoreInfo {
+    font: 6vw cute;
+    color: #FFF380;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 2vw;
+    right: 7vw;
+    text-align: right;
+    line-height: 3.5vw;
+}
+
+#restart-button {
+    opacity: 0.5;
+    position: absolute;
+    right: 0.8vw;
+    top: 0.8vw;
+    background: #EEE url('assets/restart.png') no-repeat center;
+    background-size: 4vw 4vw;
+    width: 4.5vw;
+    height: 4.5vw;
+    border: 0;
+    outline-style: none;
+    -webkit-border-radius: 20%;
+    -moz-border-radius: 20%;
+    border-radius: 20%;
+}
+
+#restart-button:hover {
+    opacity: 1;
+}
+
+#restart-button:active {
+    background-color: #AAA;
+}
+
+.gameOverText {
+    font: 13vw cute;
+    color: #BB5555;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 5vw;
+    left: 14%;
+}
+
+.gameOverScore {
+    font: 7vw cute;
+    color: yellow;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 21vw;
+    width: 100%;
+    line-height: 8vw;
+}
+
+.gameOverCoin {
+    font: 6vw cute;
+    color: yellow;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 30vw;
+    width: 100%;
+    line-height: 8vw;
+}
+
+.gameOverCoin img {
+    width: 7vw;
+    height: 7vw;
+}
+
+#lifes {
+    line-height: 3.5vh;
+    position: absolute;
+    top: 1.5vw;
+    left: 1vw;
+    line-height: 3.5vw;
+}
+
+.with-heart {
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    margin-left: 0.5vw;
+    width: 5vw;
+    height: 5vw;
+}
+
+.without-heart {
+    opacity: 0.3;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+    margin-left: 0.5vw;
+    width: 5vw;
+    height: 5vw;
+}
+
+.gameover-button {
+    border: 0.6vw solid brown;
+    left: 39vw;
+    color: white;
+    background-color: brown;
+    position: absolute;
+    top: 40vw;
+    height: 12vw;
+    width: 12vw;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    padding: 0;
+    font: 2vw cute;
+    outline-style: none;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
+.gameover-button:hover {
+    opacity: 1;
+    border: 0.6vw solid brown;
+    background-color: white;
+    color: brown;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(2px 5px 5px #888);
+}
+
+.gameover-button:active {
+    border: 0.6vw solid black;
+    background-color: white;
+    color: black;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(2px 5px 5px #222);
+}
+
+.effect {
+    font: 6vw cute;
+    position: absolute;
+    top: 10vw;
+    right: 2vw;
+    padding-left: 10px;
+    color: #FFFFFF;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(2px 5px 5px #222);
+}
+</style>
+<!----------------------- Single Player ------------------------------>
+<div ng-show="!multiplayer" class="ui select">
+    <div ng-if="gameOver[0]==false">
+        <span class="info scoreInfo">{{score[0]}}</span>
+        <div class="coinsInfo"><img src="assets/coin2.png" /><span>×{{coinCount[0]}}</span></div>
+        <div id="lifes">
+            <img ng-if="lifesCount[0] > 0" class="with-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] < 1" class="without-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] > 1" class="with-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] < 2" class="without-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] > 2" class="with-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] < 3" class="without-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] > 3" class="with-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] < 4" class="without-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] > 4" class="with-heart" src="assets/heart2.png"></img>
+            <img ng-if="lifesCount[0] < 5" class="without-heart" src="assets/heart2.png"></img>
+        </div>
+        <div class="effect">
+            {{takingEffect[0]}}
+        </div>
+        <button id="restart-button" onclick="location.reload()">
+    </div>
+    <div ng-if="gameOver[0]==true">
+        <span class="gameOverText">Game Over</span>
+        <span class="gameOverScore"><center>Score: {{score[0]}}</center></span>
+        <span class="gameOverCoin"><center><img src="assets/coin2.png" /><span>×{{coinCount[0]}}</span></center>
+        </span>
+        <button class="gameover-button" onClick="location.reload()">Restart</button>
+        <button class="gameover-button" onClick="location.reload()" style="margin-left:14vw">Home</button>
+        </button>
+    </div>
+</div>
+<!--------------------MultiPlayer Below-------------->
+<style ng-if="multiplayer">
+@font-face {
+    font-family: 'cute';
+    src: url('assets/showg.ttf');
+}
+
+.select {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ui {
+    cursor: default;
+}
+
+.p1 {
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+}
+
+.p1-box,
+.p2-box {
+    border: 0.2vw solid white;
+    width: 30vw;
+    height: 6vw;
+    padding: 0.5vw 1vw 5vw;
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+}
+
+.p1-box>span,
+.p2-box>span {
+    font: 4vw cute;
+    color: white;
+    ;
+    -webkit-filter: drop-shadow(5px 5px 8px #000);
+    filter: drop-shadow(5px 5px 5px #111);
+}
+
+.lifes {
+    margin-top: 1vw;
+    left: 0.8vw;
+    line-height: 3.5vw;
+    -webkit-filter: drop-shadow(2px 2px 4px #444);
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
+.with-heart {
+    margin-left: 0.4vw;
+    width: 4vw;
+    height: 4vw;
+}
+
+.without-heart {
+    opacity: 0.3;
+    margin-left: 0.4vw;
+    width: 4vw;
+    height: 4vw;
+}
+
+.p2 {
+    position: absolute;
+    top: 1vw;
+    left: 34vw;
+}
+
+.scoreInfo {
+    position: absolute;
+    font: 4vw cute;
+    color: #FFF380;
+    -webkit-filter: drop-shadow(2px 2px 4px #444);
+    filter: drop-shadow(5px 5px 5px #222);
+    top: 10vw;
+    right: 1vw;
+    text-align: right;
+    line-height: 3.5vw;
+}
+
+#restart-button {
+    opacity: 0.5;
+    position: absolute;
+    right: 1vw;
+    top: 1vw;
+    background: #EEE url('assets/restart.png') no-repeat center;
+    background-size: 4vw 4vw;
+    width: 4.5vw;
+    height: 4.5vw;
+    border: 0;
+    outline-style: none;
+    -webkit-border-radius: 20%;
+    -moz-border-radius: 20%;
+    border-radius: 20%;
+}
+
+#restart-button:hover {
+    opacity: 1;
+}
+
+#restart-button:active {
+    background-color: #AAA;
+}
+
+.coinsInfo {
+    position: absolute;
+    font: 4vw cute;
+    color: white;
+    -webkit-filter: drop-shadow(2px 2px 4px #444);
+    filter: drop-shadow(5px 5px 5px #222);
+    top: 1.2vw;
+    left: 70%;
+    line-height: 3.5vw;
+}
+
+.coinsInfo img {
+    width: 4vw;
+    height: 4vw;
+}
+
+.gameOverText {
+    font: 13vw cute;
+    color: #BB5555;
+    -webkit-filter: drop-shadow(2px 2px 4px #444);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 1vw;
+    left: 14%;
+}
+
+.gameOverScoreP1 {
+    position: absolute;
+    font: 4vw cute;
+    color: yellow;
+    -webkit-filter: drop-shadow(5px 5px 5px #999);
+    filter: drop-shadow(5px 5px 5px #222);
+    top: 23vw;
+    width: 100%;
+    line-height: 5vw;
+    left: 18vw;
+}
+
+.gameOverPlayer {
+    position: absolute;
+    font: 7vw cute;
+    top: 15vw;
+    left: 25vw;
+    color: #00FF00;
+    -webkit-filter: drop-shadow(10px 10px 10px #AAA);
+    filter: drop-shadow(50px 50px 50px #222);
+}
+
+.gameOverCoinP1 {
+    font: 5vw cute;
+    color: yellow;
+    -webkit-filter: drop-shadow(5px 5px 5px #999);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 34vw;
+    width: 100%;
+    line-height: 5vw;
+    left: 23vw;
+}
+
+.gameOverCoinP1 img {
+    width: 5vw;
+    height: 5vw;
+}
+
+.gameOverScoreP2 {
+    font: 4vw cute;
+    color: yellow;
+    -webkit-filter: drop-shadow(5px 5px 5px #999);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 23vw;
+    width: 100%;
+    line-height: 5vw;
+    left: 58vw;
+}
+
+.gameOverCoinP2 {
+    font: 5vw cute;
+    color: yellow;
+    -webkit-filter: drop-shadow(5px 5px 5px #999);
+    filter: drop-shadow(5px 5px 5px #222);
+    position: absolute;
+    top: 34vw;
+    width: 100%;
+    line-height: 5vw;
+    left: 63vw;
+}
+
+.gameOverCoinP2 img {
+    width: 5vw;
+    height: 5vw;
+}
+
+.gameover-button {
+    border: 0.6vw solid brown;
+    left: 36vw;
+    color: white;
+    background-color: brown;
+    position: absolute;
+    top: 40vw;
+    height: 12vw;
+    width: 12vw;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    padding: 0;
+    font: 2vw cute;
+    outline-style: none;
+    -webkit-filter: drop-shadow(2px 2px 4px #444);
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
+.gameover-button:hover {
+    opacity: 1;
+    border: 0.6vw solid brown;
+    background-color: white;
+    color: brown;
+    -webkit-filter: drop-shadow(2px 2px 4px #999);
+    filter: drop-shadow(2px 5px 5px #888);
+}
+
+.gameover-button:active {
+    border: 0.6vw solid black;
+    background-color: white;
+    color: black;
+    -webkit-filter: drop-shadow(2px 2px 4px #444);
+    filter: drop-shadow(2px 5px 5px #222);
+}
+
+.effect {
+    font: 6vw cute;
+    position: absolute;
+    top: 10vw;
+    right: 2vw;
+    padding-left: 10px;
+    color: #FFFFFF;
+    -webkit-filter: drop-shadow(5px 5px 5px #888);
+    filter: drop-shadow(2px 5px 5px #222);
+}
+</style>
+<div ng-show="multiplayer" class="ui select">
+    <div ng-show="waiting[0] == false && waiting[1] == false">
+        <div style="display: table; font-family: 'cute'; height: 100%; width: 100%; overflow: hidden; position: absolute; top: 0; left: 0; font-size: 60px; text-align: center;">
+            <div style="display: table-cell; vertical-align: middle;">
+                <div>
+                    Waiting for another players...
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p1">
+        <div ng-if="gameOver[0]!=true && gameOver[1]!=true" class="p1-box">
+            <span>Player 1</span>
+            <div class="coinsInfo">
+                <img src="assets/coin2.png" /><span>×{{coinCount[0]}}</span>
+            </div>
+            <div>
+                <span class="scoreInfo">{{score[0]}}</span>
+            </div>
+            <div class="lifes">
+                <img ng-if="lifesCount[0] > 0" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] < 1" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] > 1" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] < 2" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] > 2" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] < 3" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] > 3" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] < 4" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] > 4" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[0] < 5" class="without-heart" src="assets/heart2.png"></img>
+            </div>
+            <div class="effect">
+                {{takingEffect[0]}}
+            </div>
+        </div>
+    </div>
+    <div class="p2">
+        <div ng-if="gameOver[0]!=true && gameOver[1]!=true " class="p2-box">
+            <span>Player 2</span>
+            <div>
+                <span class="scoreInfo">{{score[1]}}</span>
+            </div>
+            <div class="lifes">
+                <img ng-if="lifesCount[1] > 0" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] < 1" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] > 1" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] < 2" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] > 2" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] < 3" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] > 3" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] < 4" class="without-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] > 4" class="with-heart" src="assets/heart2.png"></img>
+                <img ng-if="lifesCount[1] < 5" class="without-heart" src="assets/heart2.png"></img>
+            </div>
+            <div class="coinsInfo">
+                <img src="assets/coin2.png" /><span>×{{coinCount[1]}}</span>
+            </div>
+            <div class="effect">
+                {{takingEffect[1]}}
+            </div>
+        </div>
+    </div>
+    <div ng-if="((gameOver[0]==true)||(gameOver[1]==true))" id="game-over">
+        <span class="gameOverText">Game Over</span>
+        <br>
+        <span ng-if="(lifesCount[0] < 1 && lifesCount[1] <1)" class="gameOverPlayer">2 Players Die!!</span>
+        <span ng-if="(gameOver[0]==true && gameOver[1]!=true)" class="gameOverPlayer">Player2 Win!!</span>
+        <span ng-if="(gameOver[0]!=true && gameOver[1]==true)" class="gameOverPlayer">Player1 Win!!</span>
+        <span class="gameOverScoreP1"><span style="color:orange">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Player 1</span>
+        <br><big>Score: {{score[0]}}</big></span>
+        <span class="gameOverCoinP1"><img src="assets/coin2.png" /><span>×{{coinCount[0]}}</span></span>
+        <span class="gameOverScoreP2"><span style="color:orange">&nbsp;&nbsp;&nbsp;Player 2</span>
+        <br><big>Score: {{score[1]}}</big></span>
+        <span class="gameOverCoinP2"><img src="assets/coin2.png" /><span>×{{coinCount[1]}}</span></span>
+        <button class="gameover-button" onClick="location.reload()">Restart</button>
+        <button class="gameover-button" onClick="location.reload()" style="margin-left:14vw">Home</button>
+    </div>
+    <button ng-if="!((gameOver[0]==true)||(gameOver[1]==true))" id="restart-button" onclick="location.reload()">
+    </button>
+</div>

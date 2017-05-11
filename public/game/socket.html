@@ -1,0 +1,22 @@
+<html>
+  <head><script src="/socket.io/socket.io.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  </head>
+  <body><script>
+      var socket = io.connect();
+	  socket.on('date', function(data) {
+        $('#date').text(data.date);
+      });
+	  
+	  $(document).ready(function(){
+        $('#text').keypress(function(e){
+          socket.emit('client_data', {
+            'letter': String.fromCharCode(e.charCode)
+          });
+        });
+      });
+    </script>
+	This is our socket.html file
+	<div id="date"></div>
+	<textarea id="text"></textarea></body>
+</html>
