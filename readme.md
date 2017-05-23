@@ -23,7 +23,7 @@ set DEBUG=myapp & node ./bin/www
 - [Express](http://expressjs.com/)
 - [Socket.io](https://socket.io/) - For multiple players communication
 - [Angular.js](https://angularjs.org/) - Javascript Web Framework
-- [CreateJS](http://createjs.com/) - For game objects movment
+- [CreateJS](http://createjs.com/) - For game objects movement
 - [jQuery](https://jquery.com/)
 
 ## Authors and Contributors
