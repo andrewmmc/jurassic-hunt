@@ -1,6 +1,8 @@
 Jurassic Hunt
 ======
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/andrewmmc/jurassic-hunt.svg)](https://greenkeeper.io/)
+
 This repository is no longer maintained for a while as the project is for demo purposes only. The project was developed in 2015 and it may not well-organized.
 
 Jurassic Hunt is a side-scrolling running game operates from any browsers that support HTML5. During the endless run, the player would encounter many enemies, obstacles, and power-ups items. The game will be featured with two different modes, i.e. single-player mode, and multiplayer mode, which aimed at reaching scores as high as possible by running. The game requires the player to be sensitive to eye-hand coordination regarding rapid changes, attacks, and character control.
